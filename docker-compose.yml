@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./wwwroot/images:/mnt/data
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+# TEST DOCKER
+  # web:
+  #   image: api_todo
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "9080:80"
+  #   depends_on: 
+  #     - migrations
+  #     - db
+  
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   environment:
+  #     SA_PASSWORD: "Password@12345"
+  #     ACCEPT_EULA: "Y"
+  #   ports:
+  #     - "14331:1433"
+  #   depends_on: 
+  #     - migrations
+  
+  # migrations:
+  #   build: 
+  #     context: .
+  #     dockerfile: Migrations.Dockerfile
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
